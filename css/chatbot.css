@@ -12,9 +12,9 @@ body{
 }
 
 .shadowed{
- -webkit-box-shadow: 3px 3px 23px 0px rgba(50, 50, 50, 0.75);
-	-moz-box-shadow:    3px 3px 23px 0px rgba(50, 50, 50, 0.75);
-		 box-shadow:         3px 3px 23px 0px rgba(50, 50, 50, 0.75);	
+ -webkit-box-shadow: 2px 2px 22px 0px rgba(50, 50, 50, 0.75);
+	-moz-box-shadow:    2px 2px 22px 0px rgba(50, 50, 50, 0.75);
+		 box-shadow:         2px 2px 22px 0px rgba(50, 50, 50, 0.75);
 }
 
 .chat-box{
@@ -57,7 +57,7 @@ body{
 
 
 .chat-input{
-	width: 380px;
+	width: 280px;
     font-size: 20px;
     margin-top: 10px;
     border: 1px solid #999;
@@ -66,7 +66,7 @@ body{
 }
 
 .chat-send{
-	padding:5px 30px;
+	padding:5px 20px;
 	display:inline-block;
 	background-color:#00FF7F;
 	vertical-align: bottom;
@@ -93,7 +93,7 @@ body{
 #emoji{
 	position: absolute;
     top: 0px;
-    width: 130px;
+    width: 120px;
     left: 51%;
     top:50%;
     transform: translateX(-50%) translateY(-50%);

@@ -2,7 +2,7 @@ var ChatBot = {};
 
 //The server path will be used when sending the chat message to the server.
 //todo replace with your server path if needed
-ChatBot.SERVER_PATH = "http://localhost:8000";
+ChatBot.SERVER_PATH = "http://192.168.0.70:8070";
 ChatBot.DEFAULT_ANIMATION = "waiting";
 //The animation timeout is used to cut the current running animations when a new animations starts
 ChatBot.animationTimeout;
@@ -22,7 +22,7 @@ ChatBot.start = function () {
         ChatBot.bindErrorHandlers();
         ChatBot.initSpeechConfig();
         ChatBot.bindUserActions();
-        ChatBot.write("Welcome!", "boto");
+        ChatBot.write("Hello, my name is Boto. What is yours?", "boto");
     });
 };
 
