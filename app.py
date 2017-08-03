@@ -243,7 +243,7 @@ def checker (user_message):
                                 message=dont_understand(user_message))
 
 def main():
-    run(host='192.168.0.70', port=8000) #192.168.0.70
+    run(host='0.0.0.0', port=argv[1]) #192.168.0.70
 
 if __name__ == '__main__':
     main()
