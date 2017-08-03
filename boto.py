@@ -8,20 +8,26 @@ import webbrowser
 
 # initial greeting keywords
 GREETING_WORDS = ["hello", "hey", "hi", "yo", "sup", "whatsup", "hi there","sup dude","how's it going?","hey there",
-                  "yoo","hi!","hello!","hey!","thanks!","thanks","shalom","good","ok","alright","arite","fine","ok thanks",
+                  "yoo","hi!","hello!","hey!","shalom","good","ok","alright","arite","fine","ok thanks",
                   "not bad","solid","awesome!","awesome","i'm good","im good","just chilling","not great","been better",
                   "eh","sick","not too good", "not much", "beseder","hakol beseder", "sababa", "sababa achi","achla","chilling","good man","good bro",
                   "great","amazing","not so good","terrible","horrible","bad","awful","hey man","hey dude","nothing"]
 
 BOT_GREETING_WORDS = ["how are you?", "ma koreh?", "how you doin?", "how can I help you today?", "wazzzup??",
                       "sup dawg","what's going on?","ma nishma achi?","my man! what's going on?","sup dog?",
-                      "whats good?","whats new?","how we doin today?"]
+                      "whats up?","whats new?","how we doin today?"]
+
+GREETING_THANKS_WORDS = ["thanks!","thanks","thank you","Thank you","Thanks","todah","thank","sorry"]
+BOT_THANKS_WORDS = ["You're welcome!","no problem","anytime","of course","you got it","for sure","no worries","I'm here to help"]
+
+YOU_WORDS = ["you","You","your","Your","You're","you're","hbu","how about","youre","Youre"]
+BOT_YOU_RESPONSE = ["my life is pretty boring let's focus on you here"]
 
 #alert user if any of these words are used
 BAD_WORDS = ['fuck', 'shit', 'bitch', 'asshole', 'douchebag', 'fag', 'dick','idiot','fucker','ass']
 
 # narrow down keywords with a specific topic
-TOPIC_LIST = ["weather, shopping","food","tel_aviv","movies","vacation","time"]
+TOPIC_LIST = ["weather, shopping","food","tel aviv","movies","vacation","time"]
 BOT_TOPIC_SUGGEST = "Could you please suggest a keyword that is more specific to our current topic?"
 
 #if user does not input a relevant keyword/topic
@@ -32,16 +38,20 @@ RESET_CHAT = "Let's chat about a new topic"
 WEATHER_LIST = ["temperature","weather","high","low","humidity","average","cloudy","clouds","rain","sun",
                 "sunshine","snow","hail","hot","cold","mild"]
 SHOPPING_LIST = ["wear","clothing","clothes","shopping","dress","jeans","buy","shorts","shoes","towels","bed","bathing suit","hat","pants","t-shirt",
-                 "tshirt","socks","sandals","flip flops","buy","shop"]
+                 "tshirt","socks","sandals","shirt","flip flops","buy","shop"]
 MOVIES_LIST = ["movies","movie","action","comedy","thriller","scary","funny","kids","adult","long","superhero","series","popcorn","theatre","film",
                "famous","celebrity","television","cinema"]
 FOOD_LIST = ["hungry","eat","restaurant","food","falafel","israeli","burgers","italian","indian","healthy","salad","breakfast","lunch","dinner","snack","shwarma",
              "pizza","bite","brunch","munch"]
-TEL_AVIV_LIST = ["israel","tel_aviv","bike","biking","hiking","haifa","jerusalem","eilat","negev","north","golan","city","cities"]
-VACATION_LIST = ["beach","hiking", "swimming","travel","vacation","greece","italy","cyprus","relax","family","boyfriend","girlfriend","where should I go",
+BAR_LIST = ["Spicehaus","Sputnik","Rothschild 22","Teder","Night Kitchen"]
+RESTAURANT_LIST = ["Mezcal","Vitrina","Hanoi","Fu Sushi","Romano","Thai Restaurant"]
+TEL_AVIV_LIST = ["thirsty","bars","bar","drink","drinks","beer","wine","cocktail","cocktails","israel","tel_aviv","bike","biking","hiking",
+                 "haifa","city","cities","today","tlv","tel aviv","Tel Aviv"]
+VACATION_LIST = ["break","beach","hiking", "swimming","travel","vacation","relax","family","boyfriend","girlfriend","where should I go",
                  "europe","asia","usa","united states","new york","visit","abroad"]
+PLACES_LIST = ["greece","italy","cyprus","croatia","spain","portugal"]
 TIME_LIST = ["tired","sleep","time","hour","minute","sleep","hours","minutes","clock","watch", "day","date","night"]
-RESET_LIST = ["reset", "yes","restart","sure","yea","definitely","yep","yup","please","ok", "new topic", "change","topic"]
+RESET_LIST = ["reset","RESET","Reset","restart","yea", "new topic", "change"]
 HELP_LIST = ["help","Help","HELP"]
 
 #set level to prevent conversation from going back to initial starting point
@@ -61,14 +71,6 @@ def chat():
         return json.dumps(checker(user_message))
     else:
         return json.dumps(bad_word(user_message))
-
-@route("/user", method='POST')
-#save message as a variable
-
-#do get request to see if there is something in browser
-
-#timeout on js to see if there is a new message
-#if there is a new message post it on the server
 
 @route("/test", method='POST')
 def chat():
@@ -110,8 +112,8 @@ def chatbot_response(animation, message):
 #once have narrowed down specific keywords & topic, give user answer
 def name(user_message):
     level["Key"] = 1
-    return "Hi " + user_message + "! " + random.choice(BOT_GREETING_WORDS)+ "\n(FYI - if you feel like I'm not " \
-                                  "helping, please enter HELP)"
+    return "Hi " + user_message + "! " + random.choice(BOT_GREETING_WORDS)+ " (FYI - if you feel like I'm not " \
+           "helping, please enter HELP)"
 
 def weather(user_message):
     level["Key"] = 1
@@ -123,12 +125,13 @@ def shopping(user_message):
 
 def food(user_message):
     level["Key"] = 1
-    return "Miznon, Hakosem and Port Said are great restaurants. " \
-           "(btw make sure to order the techina at Port Said - it's unreal)"
+    return "Miznon, Hakosem and Port Said are my three favorite restaurants. " \
+           "You should also check out " + random.choice(RESTAURANT_LIST) + ", its really good too"
 
 def tel_aviv(user_message):
     level["Key"] = 1
-    return "There's lots to do in Tel Aviv - beach, restaurants, and bars are all great options"
+    return "There's lots to do in Tel Aviv - beach, restaurants, and bars are all great options. " \
+           "Check out " + random.choice(BAR_LIST) + " for great happy hour drinks"
 
 def movies(user_message):
     level["Key"] = 1
@@ -136,7 +139,7 @@ def movies(user_message):
 
 def vacation(user_message):
     level["Key"] = 1
-    return "Greece and Cyprus are great summer vacation spots that should be relatively inexpensive from Tel Aviv"
+    return random.choice(PLACES_LIST) + " is a great summer vacation spot that should be relatively inexpensive from Tel Aviv"
 
 def time(user_message):
     level["Key"] = 1
@@ -146,6 +149,14 @@ def reset(user_message):
     level["Key"] = 1
     return RESET_CHAT + ". " + random.choice(BOT_GREETING_WORDS)
 
+def thanks(user_message):
+    level["Key"] = 1
+    return random.choice(BOT_THANKS_WORDS)
+
+def you_response(user_message):
+    level["Key"] = 1
+    return BOT_YOU_RESPONSE
+
 def dont_understand(user_message):
     level["Key"] = 1
     return DONT_UNDERSTAND_YOU + ". Please choose a topic (ex: " + random.choice(TOPIC_LIST) + ") " \
@@ -153,7 +164,7 @@ def dont_understand(user_message):
 
 def help(user_message):
     level["Key"] = 1
-    return  webbrowser.open("http://www.google.com")
+    return webbrowser.open("http://www.google.com")
 
 #return appropriate message based on topic user chooses
 def checker (user_message):
@@ -163,10 +174,25 @@ def checker (user_message):
         return chatbot_response(animation="inlove",
                                 message=name(user_message))
 
+    elif '?' in user_message:
+        level["Key"] = 1
+        return chatbot_response(animation="crying",
+                                message="I'm the one asking the questions here. Let's try that again...")
+
+    elif check_input(user_message_words,YOU_WORDS):
+        level["Key"] = 1
+        return chatbot_response(animation="no",
+                                message=you_response(user_message))
+
     elif check_input(user_message_words,GREETING_WORDS):
         level["Key"] = 1
         return chatbot_response(animation="excited",
                                 message=random.choice(BOT_GREETING_WORDS))
+
+    elif check_input(user_message_words,GREETING_THANKS_WORDS):
+        level["Key"] = 1
+        return chatbot_response(animation="inlove",
+                                message=random.choice(BOT_THANKS_WORDS))
 
     elif check_input(user_message_words,WEATHER_LIST):
         level["Key"] = 2
@@ -217,7 +243,7 @@ def checker (user_message):
                                 message=dont_understand(user_message))
 
 def main():
-    run(host='192.168.0.70', port=8070)
+    run(host='192.168.0.70', port=8000) #192.168.0.70
 
 if __name__ == '__main__':
     main()
