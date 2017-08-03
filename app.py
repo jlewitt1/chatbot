@@ -1,6 +1,11 @@
 """
 This is the template server side for ChatBot
 """
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from sys import argv
+
 from bottle import route, run, template, static_file, request
 import json
 import random
