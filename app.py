@@ -226,7 +226,7 @@ def checker (user_message):
 
     elif check_input(user_message_words,MOVIES_LIST):
         level["Key"] = 2
-        return chatbot_response(animation="giggling",
+        return chatbot_response(animation="dancing",
                                 message=movies(user_message))
 
     elif check_input(user_message_words,VACATION_LIST):
