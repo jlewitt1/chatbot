@@ -22,14 +22,14 @@ BOT_GREETING_WORDS = ["how are you?", "ma koreh?", "how you doin?", "how can I h
                       "sup dawg","what's going on?","ma nishma achi?","my man! what's going on?","sup dog?",
                       "whats up?","whats new?","how we doin today?"]
 
-GREETING_THANKS_WORDS = ["thanks!","thanks","thank you","Thank you","Thanks","todah","thank","sorry"]
+GREETING_THANKS_WORDS = ["thanks!","thanks","thank you","Thanks","todah","thank","sorry"]
 BOT_THANKS_WORDS = ["You're welcome!","no problem","anytime","of course","you got it","for sure","no worries","I'm here to help"]
 
-YOU_WORDS = ["you","You","your","Your","You're","you're","hbu","how about","youre","Youre"]
+YOU_WORDS = ["you","your","you're","hbu","how about","youre"]
 BOT_YOU_RESPONSE = ["my life is pretty boring let's focus on you here"]
 
 #alert user if any of these words are used
-BAD_WORDS = ['fuck', 'shit', 'bitch', 'asshole', 'douchebag', 'fag', 'dick','idiot','fucker','ass']
+BAD_WORDS = ['fuck', 'shit', 'bitch', 'asshole', 'douchebag', 'fag', 'dick','idiot','fucker','ass','fucks']
 
 # narrow down keywords with a specific topic
 TOPIC_LIST = ["weather, shopping","food","tel aviv","movies","vacation","time"]
@@ -48,16 +48,16 @@ MOVIES_LIST = ["movies","movie","action","comedy","thriller","scary","funny","ki
                "famous","celebrity","television","cinema"]
 FOOD_LIST = ["hungry","eat","restaurant","food","falafel","israeli","burgers","italian","indian","healthy","salad","breakfast","lunch","dinner","snack","shwarma",
              "pizza","bite","brunch","munch"]
-BAR_LIST = ["Spicehaus","Sputnik","Rothschild 22","Teder","Night Kitchen"]
-RESTAURANT_LIST = ["Mezcal","Vitrina","Hanoi","Fu Sushi","Romano","Thai Restaurant"]
+BAR_LIST = ["spicehaus","sputnik","rothschild 22","teder","night kitchen"]
+RESTAURANT_LIST = ["mezcal","vitrina","hanoi","fu Sushi","romano","thai restaurant"]
 TEL_AVIV_LIST = ["thirsty","bars","bar","drink","drinks","beer","wine","cocktail","cocktails","israel","tel_aviv","bike","biking","hiking",
-                 "haifa","city","cities","today","tlv","tel aviv","Tel Aviv"]
+                 "haifa","city","cities","today","tlv","tel aviv"]
 VACATION_LIST = ["break","beach","hiking", "swimming","travel","vacation","relax","family","boyfriend","girlfriend","where should I go",
                  "europe","asia","usa","united states","new york","visit","abroad"]
 PLACES_LIST = ["greece","italy","cyprus","croatia","spain","portugal"]
 TIME_LIST = ["tired","sleep","time","hour","minute","sleep","hours","minutes","clock","watch", "day","date","night"]
-RESET_LIST = ["reset","RESET","Reset","restart","yea", "new topic", "change"]
-HELP_LIST = ["help","Help","HELP"]
+RESET_LIST = ["reset","restart","yea", "new topic", "change"]
+HELP_LIST = ["help"]
 
 #set level to prevent conversation from going back to initial starting point
 level = {"Key":0}
@@ -69,8 +69,7 @@ def index():
 
 @route("/chat", method='POST')
 def chat():
-    user_message = request.POST.get('msg')
-    print user_message
+    user_message = request.POST.get('msg').lower()
     bad_word_indicator = bad_word(user_message)
     if (bad_word_indicator is False):
         return json.dumps(checker(user_message))
@@ -105,7 +104,12 @@ def bad_word(user_message):
 #check if user input matches any keywords in given list
 def check_input(user_message_words,word_list):
     for word in word_list:
-        if word in user_message_words:
+        splitted_word = word.split(' ')
+        if isinstance(splitted_word, list):
+            for single_word in splitted_word:
+                if single_word in user_message_words:
+                    return True
+        elif word in user_message_words:
             return True
     return False
 
@@ -174,6 +178,7 @@ def help(user_message):
 #return appropriate message based on topic user chooses
 def checker (user_message):
     user_message_words = user_message.split(" ")
+    print(str(user_message_words))
 
     if (level["Key"] == 0):
         return chatbot_response(animation="inlove",
@@ -248,7 +253,8 @@ def checker (user_message):
                                 message=dont_understand(user_message))
 
 def main():
-    run(host='0.0.0.0', port=argv[1]) #192.168.0.70
+    run(host='0.0.0.0', port=argv[1]) #localhost
+    # run(host='0.0.0.0', port=argv[1]) #192.168.0.70
 
 if __name__ == '__main__':
     main()
